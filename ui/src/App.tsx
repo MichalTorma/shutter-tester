@@ -44,14 +44,14 @@ function App() {
     messageHandler.emit({ type: InternalMessageType.Reset });
   };
 
-  const handleMetadataMessage = (_: MetadataMessage) => {};
+  const handleMetadataMessage = (_: MetadataMessage) => { };
 
   const updateShutterDirection = (message: ThreePointMeasurement) => {
-    if(settings.shutterDirection === ShutterDirection.Auto){
-      if(message.sensor1.open < message.sensor3.open){
-        setSettings({...settings, shutterDirection: ShutterDirection.Vertical})
-      }else{
-        setSettings({...settings, shutterDirection: ShutterDirection.Horizontal})
+    if (settings.shutterDirection === ShutterDirection.Auto) {
+      if (message.sensor1.open < message.sensor3.open) {
+        setSettings({ ...settings, shutterDirection: ShutterDirection.Vertical })
+      } else {
+        setSettings({ ...settings, shutterDirection: ShutterDirection.Horizontal })
       }
     }
   }
