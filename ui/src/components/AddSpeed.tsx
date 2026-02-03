@@ -6,7 +6,6 @@ type Props = {
 
 export default function SummaryLine({ onAddSpeed }: Props) {
   const [newSpeed, setNewSpeed] = useState("");
-  const [error, setError] = useState("");
 
   const validate = (): boolean =>
     /^\d+$/.test(newSpeed) || !!/^1 ?\/ ?\d+$/.test(newSpeed);
@@ -14,11 +13,8 @@ export default function SummaryLine({ onAddSpeed }: Props) {
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
-      setError("");
       onAddSpeed(newSpeed);
       setNewSpeed("");
-    } else {
-      setError("Invalid format for new speed");
     }
   };
 
@@ -36,8 +32,7 @@ export default function SummaryLine({ onAddSpeed }: Props) {
           placeholder="1/250"
         ></input>
         <span> s </span>
-        <button>Add speed</button>
-        {!!error ? <span>{error}</span> : undefined}
+        <button disabled={!validate()}>Add speed</button>
       </form>
     </div>
   );
