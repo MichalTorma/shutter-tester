@@ -75,12 +75,21 @@ ${this.state.errorInfo?.componentStack}
 
     handleGithubIssue = () => {
         const title = `Crash: ${this.state.error?.message}`;
-        const body = encodeURIComponent(
-            `I encountered an error while using Shutter Tester.\n\n${this.generateReport()}`
-        );
-        const url = `https://github.com/bjpirt/shutter-tester/issues/new?title=${encodeURIComponent(
+        let body = `I encountered an error while using Shutter Tester.\n\n${this.generateReport()}`;
+
+        // GitHub URL limit is roughly 8k usually, but 5k is a safe lower bound for browser compat.
+        // We use a safe character limit for the body to avoid complex encoded-length calculations.
+        const maxBodyLength = 1500; // 1500 chars * ~3 (worst case encoding) = ~4500, which fits safely.
+
+        if (body.length > maxBodyLength) {
+            body = body.slice(0, maxBodyLength) + "\n\n... (Report truncated due to URL length limit. Please copy the full report manually.)";
+        }
+
+        const baseUrl = "https://github.com/bjpirt/shutter-tester/issues/new";
+        const url = `${baseUrl}?title=${encodeURIComponent(
             title
-        )}&body=${body}`;
+        )}&labels=bug&body=${encodeURIComponent(body)}`;
+
         window.open(url, "_blank");
     };
 
