@@ -8,6 +8,8 @@ export type SensorSettings = {
   exposure: boolean;
 };
 
+export type Theme = "light" | "dark" | "system";
+
 export type Settings = {
   compensation: boolean;
   mode: ViewMode;
@@ -18,6 +20,7 @@ export type Settings = {
     display: boolean;
   };
   shutterDirection: ShutterDirection;
+  theme: Theme;
 };
 
 const defaultSettings: Settings = {
@@ -32,12 +35,13 @@ const defaultSettings: Settings = {
   shutterData: {
     display: false,
   },
-  shutterDirection: ShutterDirection.Auto
+  shutterDirection: ShutterDirection.Auto,
+  theme: "system",
 };
 
 export const Context = createContext({
   settings: defaultSettings,
-  setSettings: (_: Settings) => {},
+  setSettings: (_: Settings) => { },
 });
 
 export default function SettingsContext({ children }: React.PropsWithChildren) {

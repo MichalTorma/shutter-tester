@@ -10,6 +10,7 @@ import ShotByShotView from "./components/ShotByShotView";
 import ShutterTimingView from "./components/ShutterTimingView";
 import SinglePointMeasurements from "./components/SinglePointMeasurements";
 import TestShot from "./components/TestShot";
+import ThemeControl from "./components/ThemeControl";
 import ThreePointMeasurements from "./components/ThreePointMeasurements";
 import { defaultSpeeds } from "./lib/defaults";
 import messageHandler from "./lib/internalMessageBus";
@@ -31,6 +32,28 @@ function App() {
   const { settings, setSettings } = useContext(Context);
   const [speeds, setSpeeds] = useState(defaultSpeeds);
   const [selectedSpeed, setSelectedSpeed] = useState(speeds[0]);
+
+  // Apply theme
+  useEffect(() => {
+    const root = document.documentElement;
+    const applyTheme = (theme: "light" | "dark") => {
+      root.classList.remove("light", "dark");
+      root.classList.add(theme);
+    };
+
+    if (settings.theme === "system") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+        applyTheme(e.matches ? "dark" : "light");
+      };
+
+      handleChange(mediaQuery); // Apply initial
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    } else {
+      applyTheme(settings.theme);
+    }
+  }, [settings.theme]);
 
   const removeSpeed = (speed: string) => {
     setSpeeds(speeds.filter((existingSpeed) => existingSpeed !== speed));
@@ -107,6 +130,7 @@ function App() {
     <>
       <header>
         <div className="connect">
+          <ThemeControl />
           <DirectionControl />
           <ModeControl onChange={setMode} />
           <AddSpeed onAddSpeed={addSpeed} />

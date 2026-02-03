@@ -4,32 +4,32 @@
 
 
 .summary tr.selected {
-  background-color: #4c4c4c;
+  background-color: var(--bg-table-selected);
 }
 
 .summary .remove {
   cursor: pointer;
 }
 
-table td{
+table td {
   padding: 2px 6px
 }
 
 table tr:nth-child(odd) {
-  background-color: #2b2b2b
+  background-color: var(--bg-table-odd);
 }
 
-.control{
+.control {
   display: inline-block;
   padding: 4px;
 }
 
-.control label{
+.control label {
   margin-right: 5px
 }
 
 .control {
-  margin-right:20px
+  margin-right: 20px
 }
 
 #controls button {
@@ -41,25 +41,25 @@ table tr:nth-child(odd) {
   float: right;
 }
 
-button.action{
-  background-color:#107b11;
-  color:#FFF
+button.action {
+  background-color: var(--bg-action-btn);
+  color: var(--text-action-btn);
 }
 
 
 button:hover {
-  border-color: #60a362;
+  border-color: var(--border-button-hover);
 }
 
-h1{
-  margin:0 0 20px;
-  font-size:2.75em
+h1 {
+  margin: 0 0 20px;
+  font-size: 2.75em
 }
 
 h1 .icon {
-  font-size:130%
+  font-size: 130%
 }
 
 .measurement-detail {
-  color:#777
+  color: var(--text-detail);
 }

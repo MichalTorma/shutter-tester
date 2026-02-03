@@ -1,0 +1,39 @@
+.theme-control {
+    display: inline-flex;
+    background-color: var(--bg-theme-control);
+    border: 1px solid var(--border-theme-control);
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+    align-items: center;
+    margin-right: 20px;
+    /* Match .control margin from App.css */
+}
+
+.theme-control button {
+    background-color: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1.2em;
+    color: var(--text-theme-control);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Override global button styles that might conflict */
+    margin: 0;
+    line-height: 1;
+}
+
+.theme-control button:hover {
+    background-color: var(--bg-theme-control-hover);
+    color: var(--text-theme-control-hover);
+    border-color: transparent;
+}
+
+.theme-control button.active {
+    background-color: var(--bg-theme-control-active);
+    color: var(--text-theme-control-active);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
