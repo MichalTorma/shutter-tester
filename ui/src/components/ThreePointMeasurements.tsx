@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import messageHandler from "../lib/internalMessageBus";
 import { InternalMessage, InternalMessageType } from "../types/InternalMessage";
 import { ThreePointMeasurement } from "../types/Measurement";
@@ -15,6 +15,8 @@ type Props = {
   onRemoveSpeed: (speed: string) => void;
 };
 
+type MeasurementWithId = ThreePointMeasurement & { id: string };
+
 export default function ThreePointMeasurements({
   speeds,
   onRemoveSpeed,
@@ -23,7 +25,7 @@ export default function ThreePointMeasurements({
   const { settings } = useContext(Context);
 
   const [measurements, setMeasurements] = useState<
-    Record<string, ThreePointMeasurement[]>
+    Record<string, MeasurementWithId[]>
   >({});
 
   const selectSpeed = (speed: string) => {
@@ -33,11 +35,11 @@ export default function ThreePointMeasurements({
 
   const removeMeasurement = (
     speed: string,
-    measurement: ThreePointMeasurement
+    measurement: MeasurementWithId
   ) => {
     setMeasurements({
       ...measurements,
-      [speed]: measurements[speed].filter((m) => m != measurement),
+      [speed]: measurements[speed].filter((m) => m.id !== measurement.id),
     });
   };
 
@@ -45,7 +47,7 @@ export default function ThreePointMeasurements({
     setMeasurements({
       ...measurements,
       [selectedSpeed]: [
-        measurement,
+        { ...measurement, id: crypto.randomUUID() },
         ...(measurements[selectedSpeed] ?? []),
       ],
     });
@@ -117,9 +119,8 @@ export default function ThreePointMeasurements({
             const selectedMeasurements = measurements[speed ?? ""];
 
             return (
-              <>
+              <Fragment key={speed}>
                 <ThreePointSummaryRow
-                  key={speed}
                   speed={speed}
                   selected={selected}
                   onSelect={selectSpeed}
@@ -129,14 +130,15 @@ export default function ThreePointMeasurements({
 
                 {selected
                   ? selectedMeasurements?.map((m) => (
-                      <ThreePointDetailRow
-                        measurement={m}
-                        selectedSpeed={speed}
-                        onRemove={() => removeMeasurement(speed, m)}
-                      />
-                    ))
+                    <ThreePointDetailRow
+                      key={m.id}
+                      measurement={m}
+                      selectedSpeed={speed}
+                      onRemove={() => removeMeasurement(speed, m)}
+                    />
+                  ))
                   : undefined}
-              </>
+              </Fragment>
             );
           })}
         </tbody>
