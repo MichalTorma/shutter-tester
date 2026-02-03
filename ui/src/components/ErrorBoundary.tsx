@@ -78,7 +78,7 @@ ${this.state.errorInfo?.componentStack}
         const body = encodeURIComponent(
             `I encountered an error while using Shutter Tester.\n\n${this.generateReport()}`
         );
-        const url = `https://github.com/MichalTorma/shutter-tester/issues/new?title=${encodeURIComponent(
+        const url = `https://github.com/bjpirt/shutter-tester/issues/new?title=${encodeURIComponent(
             title
         )}&body=${body}`;
         window.open(url, "_blank");
